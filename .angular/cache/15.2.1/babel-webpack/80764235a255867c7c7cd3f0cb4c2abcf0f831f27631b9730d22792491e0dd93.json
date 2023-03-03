@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class BaseHttpRequest {\n  constructor(config, http) {\n    this.config = config;\n    this.http = http;\n  }\n}","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

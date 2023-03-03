@@ -1,0 +1,7 @@
+<div class="tabs">
+    <a *ngFor="let tab of tabs" [routerLink]="tab.path" routerLinkActive="selected" class="tab bookmarks-tab">
+        <div class="tab-tile">
+            <i nz-icon [nzType]="tab.icon"></i>
+        </div>
+    </a>
+</div>

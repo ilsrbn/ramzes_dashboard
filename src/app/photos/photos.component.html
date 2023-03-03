@@ -1,0 +1,32 @@
+<div class="photos-wrapper">
+  <div class="btns-container btns-container__left">
+    <a routerLink="add" class="btn add-btn">
+      <i class="material-icons-outlined">add</i>
+      Add
+    </a>
+  </div>
+    <div class="container">
+
+    <div
+      class="photos-container"
+      *ngIf="photos$ | async as photos; else elseBlock"
+    >
+      <div class="photo-card" *ngFor="let photo of photos; trackBy: trackBy">
+        <img [src]="photo.file_url" alt="">
+        <div class="photo-card__actions">
+          <span class="photo-card__visibility" (click)="toggleVisibility(photo.id)" nz-icon nzTheme="fill" [nzType]="photo.posted ? 'eye':'eye-invisible'"></span>
+          <span class="photo-card__setting" nz-icon nzTheme="fill" nzType="setting"></span>
+          <span class="photo-card__delete" (click)="handleDelete(photo.id)" nz-icon nzTheme="fill" nzType="delete"></span>
+        </div>
+      </div>
+      <span
+        style="padding: 12px 0;"
+        intersectionObserver [intersectionDebounce]="0" (visibilityChange)="onVisibilityChanged($event)"
+      ></span>
+    </div>
+
+    <ng-template #elseBlock>
+      <h1>Empty...</h1>
+    </ng-template>
+  </div>
+</div>

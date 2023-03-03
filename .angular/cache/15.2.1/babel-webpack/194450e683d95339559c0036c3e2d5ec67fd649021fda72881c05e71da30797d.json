@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const OpenAPI = {\n  BASE: 'http://localhost:3005',\n  VERSION: '1',\n  WITH_CREDENTIALS: false,\n  CREDENTIALS: 'include',\n  TOKEN: undefined,\n  USERNAME: undefined,\n  PASSWORD: undefined,\n  HEADERS: undefined,\n  ENCODE_PATH: undefined\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

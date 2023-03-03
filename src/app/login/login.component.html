@@ -1,0 +1,23 @@
+<div class="login-wrapper container has-blurred-white-bg">
+  <h2 class="is-bold">Login</h2>
+
+  <form #form="ngForm" (ngSubmit)="onFormSubmit(form)">
+    <div class="form-field">
+      <input class="textbox" ngModel #usernameField="ngModel" name="email" type="text" placeholder="Enter email..." required>
+      <ng-container *ngIf="showValidationErrors && usernameField.invalid">
+        <p *ngIf="usernameField.errors.required">Please enter email</p>
+      </ng-container>
+    </div>
+
+    <div class="form-field">
+      <input class="textbox" ngModel #Password="ngModel" name="password" type="password" placeholder="Enter password..." required>
+      <ng-container *ngIf="showValidationErrors && Password.invalid">
+        <p *ngIf="Password.errors.required">Please enter email</p>
+      </ng-container>
+    </div>
+
+    <div class="btns-container">
+      <button class="btn align-end">Login</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,14 @@
+<div class="add-photo-wrapper container has-blurred-white-bg">
+  <h2 class="is-bold">Add photos</h2>
+  <nz-upload
+    nzListType="picture-card"
+    nzAction="http://localhost:3005/api/admin/photo"
+    nzAccept="image/*"
+    [(nzFileList)]="fileList"
+    [nzShowButton]="fileList.length < 8"
+    [nzPreview]="handlePreview"
+    (nzChange)="handleChange"
+    [nzRemove]="handleRemove"
+    nzMultiple
+  ></nz-upload>
+</div>
