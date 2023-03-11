@@ -1,15 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AddBookmarkComponent } from './add-bookmark/add-bookmark.component';
-import { AddNoteComponent } from './add-note/add-note.component';
-import { AddTodoComponent } from './add-todo/add-todo.component';
-import { BookmarksComponent } from './bookmarks/bookmarks.component';
-import { EditBookmarkComponent } from './edit-bookmark/edit-bookmark.component';
-import { EditNoteComponent } from './edit-note/edit-note.component';
-import { EditTodoComponent } from './edit-todo/edit-todo.component';
-import { ManageBookmarksComponent } from './manage-bookmarks/manage-bookmarks.component';
-import { NotesComponent } from './notes/notes.component';
-import { TodosComponent } from './todos/todos.component';
 import {PhotosComponent} from './photos/photos.component';
 import {LoginComponent} from './login/login.component';
 import {AuthGuardService} from './guard/auth.guard';
@@ -17,6 +7,12 @@ import {AddPhotoComponent} from './add-photo/add-photo.component';
 import {CategoriesComponent} from './categories/categories.component';
 import {EmptyLayoutComponent} from './empty-layout/empty-layout.component';
 import {LayoutComponent} from './layout/layout.component';
+import {AddCategoryComponent} from './add-category/add-category.component';
+import {EditCategoryComponent} from './edit-category/edit-category.component';
+import {NonAuthGuardService} from './guard/non-auth.guard';
+import {PostsComponent} from './posts/posts.component';
+import {AddPostComponent} from './add-post/add-post.component';
+import {EditPostComponent} from './edit-post/edit-post.component';
 
 
 const routes: Routes = [
@@ -28,6 +24,7 @@ const routes: Routes = [
   {
     path: 'login',
     component: EmptyLayoutComponent,
+    canActivate: [NonAuthGuardService],
     children: [
       { path: '', component: LoginComponent }
     ],
@@ -39,12 +36,11 @@ const routes: Routes = [
       { path: 'photos', component: PhotosComponent, data: { tab: 1 } },
       { path: 'photos/add', component: AddPhotoComponent },
       { path: 'categories', component: CategoriesComponent, data: { tab: 2 } },
-      { path: 'todos', component: TodosComponent, data: { tab: 3 } },
-      { path: 'todos/add', component: AddTodoComponent },
-      { path: 'todos/:id', component: EditTodoComponent },
-      { path: 'notes', component: NotesComponent, data: { tab: 4 } },
-      { path: 'notes/add', component: AddNoteComponent },
-      { path: 'notes/:id', component: EditNoteComponent }
+      { path: 'categories/add', component: AddCategoryComponent },
+      { path: 'categories/:id', component: EditCategoryComponent },
+      { path: 'posts', component: PostsComponent, data: { tab: 3 } },
+      { path: 'posts/add', component: AddPostComponent },
+      { path: 'posts/:id', component: EditPostComponent },
     ]
   },
 ];

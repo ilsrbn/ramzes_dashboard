@@ -1,0 +1,86 @@
+<div
+  class="edit-grid"
+  *ngIf="{category: category$ | async, availablePhotos: availablePhotos$ | async, categoryPhotos: categoryPhotos$ | async, cover: cover$ | async } as vm"
+>
+  <div>
+    <div *ngIf="openedSidebar$.value" [@fadeAnim] class="modal-wrapper has-blurred-white-bg">
+      <div>
+        <h2 class="is-bold">Available photos</h2>
+        <div class="grid-container">
+
+          <app-card
+            *ngFor="let photo of vm.availablePhotos"
+            [@fadeAnim]
+            [cover]="photo.file_url"
+          >
+            <ng-container actions>
+              <i nz-icon (click)="assignToCategory(photo)" nzType="plus-circle"></i>
+            </ng-container>
+          </app-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-wrapper has-blurred-white-bg">
+    <h2 class="is-bold">Edit Category "{{ vm.category?.title }}"</h2>
+    <form #form="ngForm" (ngSubmit)="handleSubmit(form)">
+      <div class="form-field">
+        <input
+          class="textbox"
+          name="title"
+          ngModel
+          #title="ngModel"
+          [ngModel]="vm.category?.title"
+          type="text"
+          placeholder="Category title..."
+          required
+        >
+        <ng-container *ngIf="showValidationErrors && title.invalid">
+          <p *ngIf="title.errors.required">Please enter email</p>
+        </ng-container>
+      </div>
+
+      <div class="form-field">
+            <textarea
+              class="textarea"
+              name="description"
+              ngModel
+              #description="ngModel"
+              [ngModel]="vm.category?.description"
+              placeholder="Category description..."
+            ></textarea>
+      </div>
+      <div class="btns-container">
+        <button class="btn" type="button" (click)="toggleNavbar()">Photos [{{ vm.categoryPhotos.length }}]</button>
+      </div>
+        <nz-radio-group style="margin: 24px 0;" nzButtonStyle="solid" ngModel #posted="ngModel" [ngModel]="vm.category?.posted" name="posted">
+          <label nz-radio-button [nzValue]="true">Posted</label>
+          <label nz-radio-button [nzValue]="false">Hidden</label>
+        </nz-radio-group>
+      <div class="btns-container">
+        <a class="btn" routerLink="/app/categories">Cancel</a>
+        <button type="submit" class="btn align-end">Submit</button>
+      </div>
+    </form>
+  </div>
+  <div>
+    <div *ngIf="openedSidebar$.value" [@fadeAnim] class="modal-wrapper has-blurred-white-bg">
+      <div>
+        <h2 class="is-bold">Category photos</h2>
+        <div class="grid-container">
+
+          <app-card
+            *ngFor="let photo of vm.categoryPhotos"
+            [@fadeAnim]
+            [cover]="photo.file_url"
+          >
+            <ng-container actions>
+              <i *ngIf="vm.cover?.newCover !== photo.id" (click)="setCover(photo.id)" nz-icon nzType="contacts"></i>
+              <i nz-icon (click)="removeFromCategory(photo)" nzType="close-circle"></i>
+            </ng-container>
+          </app-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

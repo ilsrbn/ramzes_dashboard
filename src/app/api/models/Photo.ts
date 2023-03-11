@@ -12,6 +12,5 @@ export type Photo = {
     file_url: string;
     file: string;
     categories: Array<Category>;
-    posted: any;
 };
 

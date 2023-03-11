@@ -76,7 +76,7 @@ a {
     display: flex;
     gap: 12px;
 
-    margin-bottom: 20px;
+    //margin-bottom: 20px;
 
     &.btns-centered {
         justify-content: center;
@@ -137,4 +137,77 @@ a {
 .textarea {
     resize: vertical;
     min-height: 100px;
+}
+
+.wrapper {
+  height: 100%;
+  overflow-y: auto;
+  padding: 5svh 0 12svh;
+}
+
+.wrapper > .btns-container {
+  position: fixed;
+  top: 5svh;
+  //transform: translateX(-50%);
+}
+
+.wrapper > .btns-container__left {
+  left: 50px;
+}
+
+.wrapper > .btns-container__right {
+  right: 50px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1em;
+}
+
+@media screen and (max-width: 1500px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .grid-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.modal-wrapper {
+  max-height: 100%;
+
+  overflow: auto;
+
+  padding: 35px;
+  border-radius: 5px;
+  margin-top: 50svh;
+  transform: translateY(-50%);
+}
+
+.edit-grid {
+  display: grid;
+  grid-template-columns: 1fr min(850px, 50svw) 1fr;
+  gap: 32px;
+  //padding-inline: 1svh;
+  //padding-block: 5svh;
+  & > * {
+    max-height: 98svh;
+  }
+}
+
+.modal-wrapper .grid-container {
+  grid-template-columns: repeat(2, 1fr);
+  @media screen and (max-width: 1660px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

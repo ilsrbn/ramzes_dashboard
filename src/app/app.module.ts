@@ -2,24 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule } from '@angular/core';
 
-import { FormsModule } from '@angular/forms'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TabsComponent } from './tabs/tabs.component';
-import { BookmarksComponent } from './bookmarks/bookmarks.component';
-import { TodosComponent } from './todos/todos.component';
-import { NotesComponent } from './notes/notes.component';
-import { BookmarkTileComponent } from './bookmark-tile/bookmark-tile.component';
-import { AddNoteComponent } from './add-note/add-note.component';
-import { NoteCardComponent } from './note-card/note-card.component';
-import { EditNoteComponent } from './edit-note/edit-note.component';
-import { TodoItemComponent } from './todo-item/todo-item.component';
-import { AddTodoComponent } from './add-todo/add-todo.component';
-import { EditTodoComponent } from './edit-todo/edit-todo.component';
-import { AddBookmarkComponent } from './add-bookmark/add-bookmark.component';
-import { ManageBookmarksComponent } from './manage-bookmarks/manage-bookmarks.component';
-import { EditBookmarkComponent } from './edit-bookmark/edit-bookmark.component';
 import { NotificationComponent } from './notification/notification.component';
 import { PhotosComponent } from './photos/photos.component';
 import { AddPhotoComponent } from './add-photo/add-photo.component';
@@ -40,6 +27,15 @@ import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import { CategoriesComponent } from './categories/categories.component';
 import { EmptyLayoutComponent } from './empty-layout/empty-layout.component';
 import { LayoutComponent } from './layout/layout.component';
+import { AddCategoryComponent } from './add-category/add-category.component';
+import { NzRadioModule } from 'ng-zorro-antd/radio'
+import {CardComponent} from './card/card.component';
+import { StoreModule } from '@ngrx/store';
+import {EditCategoryComponent} from './edit-category/edit-category.component';
+import { PostsComponent } from './posts/posts.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
+import { AddPostComponent } from './add-post/add-post.component';
+import { NgxEditorModule, schema } from 'ngx-editor';
 
 registerLocaleData(en);
 
@@ -58,19 +54,6 @@ const options: JwtModuleOptions = {
   declarations: [
     AppComponent,
     TabsComponent,
-    BookmarksComponent,
-    TodosComponent,
-    NotesComponent,
-    BookmarkTileComponent,
-    AddNoteComponent,
-    NoteCardComponent,
-    EditNoteComponent,
-    TodoItemComponent,
-    AddTodoComponent,
-    EditTodoComponent,
-    AddBookmarkComponent,
-    ManageBookmarksComponent,
-    EditBookmarkComponent,
     NotificationComponent,
     PhotosComponent,
     AddPhotoComponent,
@@ -78,9 +61,15 @@ const options: JwtModuleOptions = {
     ObserveElementDirective,
     CategoriesComponent,
     EmptyLayoutComponent,
-    LayoutComponent
+    LayoutComponent,
+    AddCategoryComponent,
+    EditCategoryComponent,
+    PostsComponent,
+    EditPostComponent,
+    AddPostComponent,
   ],
   imports: [
+    NzRadioModule,
     NzTagModule,
     NzIconModule,
     NzCardModule,
@@ -94,9 +83,47 @@ const options: JwtModuleOptions = {
     JwtModule.forRoot(options),
     NgOptimizedImage,
     CdkVirtualScrollViewport,
+    CardComponent,
+    StoreModule.forRoot({}, {}),
+    NgxEditorModule.forRoot({
+      locals: {
+        // menu
+        bold: 'Bold',
+        italic: 'Italic',
+        code: 'Code',
+        blockquote: 'Blockquote',
+        underline: 'Underline',
+        strike: 'Strike',
+        bullet_list: 'Bullet List',
+        ordered_list: 'Ordered List',
+        heading: 'Heading',
+        h1: 'Header 1',
+        h2: 'Header 2',
+        h3: 'Header 3',
+        h4: 'Header 4',
+        h5: 'Header 5',
+        h6: 'Header 6',
+        align_left: 'Left Align',
+        align_center: 'Center Align',
+        align_right: 'Right Align',
+        align_justify: 'Justify',
+        text_color: 'Text Color',
+        background_color: 'Background Color',
+
+        // popups, forms, others...
+        url: 'URL',
+        text: 'Text',
+        openInNewTab: 'Open in new tab',
+        insert: 'Insert',
+        altText: 'Alt Text',
+        title: 'Title',
+        remove: 'Remove',
+      },
+    }),
+    ReactiveFormsModule,
   ],
   providers: [
-    { provide: NZ_I18N, useValue: en_US }
+    {provide: NZ_I18N, useValue: en_US}
   ],
   bootstrap: [AppComponent]
 })

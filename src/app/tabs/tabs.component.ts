@@ -10,9 +10,7 @@ export class TabsComponent {
 
   constructor(
     private route: Router,
-  ) {
-    console.log({route: this.route.url});
-  }
+  ) {}
 
   tabs = [
     {
@@ -24,13 +22,9 @@ export class TabsComponent {
       icon: 'tags',
     },
     {
-      path: '/app/todos',
-      icon: 'read'
-    },
-    // {
-    //   path: 'app/notes',
-    //   icon: 'unordered-list'
-    // }
+      path: '/app/posts',
+      icon: 'book'
+    }
   ];
 
 

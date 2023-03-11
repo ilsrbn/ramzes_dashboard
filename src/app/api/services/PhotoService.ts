@@ -15,21 +15,37 @@ export class PhotoService {
 
     /**
      * Get all posted photos
-     * @param page Page number (starting from 1)
-     * @param limit Number of records per page
-     * @param search Multicolumn search term
-     * @param searchBy Limit columns to which apply 'search' term
-     * @param sortBy Format: _field_:_direction_ [direction may be ASC or DESC] e.g. id:DESC
      * @returns any Returns paginated photos
      * @throws ApiError
      */
-    public getAllPostedPhotos(
+    public getAllPostedPhotos({
+        page,
+        limit,
+        search,
+        searchBy,
+        sortBy,
+    }: {
+        /**
+         * Page number (starting from 1)
+         */
         page?: any,
+        /**
+         * Number of records per page
+         */
         limit?: any,
+        /**
+         * Multicolumn search term
+         */
         search?: any,
+        /**
+         * Limit columns to which apply 'search' term
+         */
         searchBy?: Array<string>,
+        /**
+         * Format: _field_:_direction_ [direction may be ASC or DESC] e.g. id:DESC
+         */
         sortBy?: any,
-    ): Observable<{
+    }): Observable<{
         data?: Array<Photo>;
         meta?: {
             itemsPerPage?: number;
@@ -61,13 +77,14 @@ export class PhotoService {
 
     /**
      * Get posted photo by ID
-     * @param id
      * @returns any
      * @throws ApiError
      */
-    public getPostedPhotoById(
+    public getPostedPhotoById({
+        id,
+    }: {
         id: string,
-    ): Observable<any> {
+    }): Observable<any> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/api/photo/{id}',

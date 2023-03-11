@@ -1,1 +1,26 @@
-<p>categories works!</p>
+<div class="wrapper categories-wrapper">
+  <div class="btns-container__left btns-container">
+    <a routerLink="add" class="btn add-btn">
+      <i class="material-icons-outlined">add</i>
+      Add
+    </a>
+  </div>
+  <div class="container">
+    <div class="grid-container" *ngIf="categories$ | async as categories">
+      <app-card
+        *ngFor="let category of categories;  trackBy: trackBy"
+        [cover]="category.cover?.file_url"
+        [title]="category.title"
+        [description]="category.description"
+        [posted]="category.posted"
+        [onEdit]="editCategory(category.id)"
+        [onDelete]="handleDelete(category.id)"
+        [onToggleVisibility]="toggleVisibility(category.id)"
+      />
+      <span
+        style="padding: 12px 0;"
+        intersectionObserver [intersectionDebounce]="0" (visibilityChange)="onVisibilityChanged($event)"
+      ></span>
+    </div>
+  </div>
+</div>

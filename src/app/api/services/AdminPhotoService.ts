@@ -4,7 +4,8 @@
 import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 
-import type { PaginatedResponseDto } from '../models/PaginatedResponseDto';
+import type { PaginatedResponseLinksDto } from '../models/PaginatedResponseLinksDto';
+import type { PaginatedResponseMetaDto } from '../models/PaginatedResponseMetaDto';
 import type { Photo } from '../models/Photo';
 
 import { BaseHttpRequest } from '../core/BaseHttpRequest';
@@ -16,15 +17,16 @@ export class AdminPhotoService {
 
     /**
      * Create optimized .webp photo
-     * @param formData
      * @returns any
      * @throws ApiError
      */
-    public createOptimizedWebpPhoto(
+    public createOptimizedWebpPhoto({
+        formData,
+    }: {
         formData: {
             file?: Blob;
         },
-    ): Observable<any> {
+    }): Observable<any> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/api/admin/photo',
@@ -35,21 +37,41 @@ export class AdminPhotoService {
 
     /**
      * Get all photos
-     * @param page Page number (starting from 1)
-     * @param limit Number of records per page
-     * @param search Multicolumn search term
-     * @param searchBy Limit columns to which apply 'search' term
-     * @param sortBy Format: _field_:_direction_ [direction may be ASC or DESC] e.g. id:DESC
      * @returns any
      * @throws ApiError
      */
-    public getAllPhotos(
+    public getAllPhotos({
+        page,
+        limit,
+        search,
+        searchBy,
+        sortBy,
+    }: {
+        /**
+         * Page number (starting from 1)
+         */
         page?: any,
+        /**
+         * Number of records per page
+         */
         limit?: any,
+        /**
+         * Multicolumn search term
+         */
         search?: any,
+        /**
+         * Limit columns to which apply 'search' term
+         */
         searchBy?: Array<string>,
+        /**
+         * Format: _field_:_direction_ [direction may be ASC or DESC] e.g. id:DESC
+         */
         sortBy?: any,
-    ): Observable<PaginatedResponseDto<Photo>> {
+    }): Observable<{
+        links?: PaginatedResponseLinksDto;
+        meta?: PaginatedResponseMetaDto;
+        data?: Array<Photo>;
+    }> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/api/admin/photo',
@@ -65,13 +87,14 @@ export class AdminPhotoService {
 
     /**
      * Delete photo by ID
-     * @param id
      * @returns any
      * @throws ApiError
      */
-    public deletePhotoById(
+    public deletePhotoById({
+        id,
+    }: {
         id: string,
-    ): Observable<any> {
+    }): Observable<any> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/api/admin/photo/{id}',
@@ -83,33 +106,16 @@ export class AdminPhotoService {
 
     /**
      * Get photo by ID
-     * @param id
      * @returns any
      * @throws ApiError
      */
-    public getPhotoById(
+    public getPhotoById({
+        id,
+    }: {
         id: string,
-    ): Observable<any> {
+    }): Observable<any> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/admin/photo/{id}',
-            path: {
-                'id': id,
-            },
-        });
-    }
-
-    /**
-     * Toggle photo publication status
-     * @param id
-     * @returns Photo
-     * @throws ApiError
-     */
-    public togglePhotoPublicationStatus(
-        id: string,
-    ): Observable<Photo> {
-        return this.httpRequest.request({
-            method: 'POST',
             url: '/api/admin/photo/{id}',
             path: {
                 'id': id,

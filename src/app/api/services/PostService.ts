@@ -15,13 +15,17 @@ export class PostService {
 
     /**
      * Get all posts
-     * @param search Search by post title and content
      * @returns Post
      * @throws ApiError
      */
-    public getAllPosts(
+    public getAllPosts({
+        search,
+    }: {
+        /**
+         * Search by post title and content
+         */
         search?: string,
-    ): Observable<Array<Post>> {
+    }): Observable<Array<Post>> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/api/post',
@@ -33,13 +37,14 @@ export class PostService {
 
     /**
      * Get post by ID
-     * @param id
-     * @returns any
+     * @returns Post
      * @throws ApiError
      */
-    public getPostById(
+    public getPostById({
+        id,
+    }: {
         id: string,
-    ): Observable<any> {
+    }): Observable<Post> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/api/post/{id}',

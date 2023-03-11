@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
 import {AdminPhotoService, Photo} from '../api';
-import {BehaviorSubject, Observable, switchMap} from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, switchMap} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {IntersectionStatus} from '../directive/from-intersection-observer';
-import { NotificationService } from '../shared/notification.service'
+import {NotificationService} from '../shared/notification.service';
+
+type PostedStatus = true | false | undefined
 
 @Component({
   selector: 'app-photos',
@@ -12,16 +14,32 @@ import { NotificationService } from '../shared/notification.service'
 })
 export class PhotosComponent {
   currentPage$ = new BehaviorSubject<number>(1)
-  photos$: Observable<Photo[]> = this.currentPage$.pipe(
-    switchMap((currentPage) => this.photoService.getAllPhotos(1, 20 * currentPage)),
-    map((res) => res.data)
+  postedStatus$ = new BehaviorSubject<PostedStatus>(undefined)
+  photos$: Observable<Photo[]> = combineLatest(
+    [this.currentPage$, this.postedStatus$]
+  ).pipe(
+    switchMap(([currentPage, postedStatus]) =>
+      this.photoService.getAllPhotos({ page: 1, limit: currentPage * 20 })
+        .pipe(
+          map((response) => response.data.filter(photo => {
+            switch (postedStatus) {
+              case undefined:
+                return true
+              case true:
+                return photo.categories.length && photo.categories.some((category) => category.posted === postedStatus)
+              case false:
+                return !photo.categories.length || photo.categories.every((category) => category.posted === postedStatus)
+            }
+          }))
+        )
+    )
   )
   constructor(
     private notificationService: NotificationService,
     private photoService: AdminPhotoService
   ) {}
 
-  nextPage() {
+  private nextPage() {
     this.currentPage$.next(this.currentPage$.value + 1)
   }
 
@@ -34,17 +52,31 @@ export class PhotosComponent {
     return element.id
   }
 
-  handleDelete(id: number) {
-    this.photoService.deletePhotoById(id.toString()).subscribe(() => {
-      this.currentPage$.next(this.currentPage$.value)
-      this.notificationService.show('Photo deleted!', 1500)
-    })
+  handleDelete = (id: number) => {
+    const photoService = this.photoService
+    const currentPage$ = this.currentPage$
+    const notificationService = this.notificationService
+    return () => {
+      photoService.deletePhotoById({ id: id.toString() }).subscribe(() => {
+        currentPage$.next(this.currentPage$.value)
+        notificationService.show('Photo deleted!', 1500)
+      })
+    }
   }
 
-  toggleVisibility(id: number) {
-    this.photoService.togglePhotoPublicationStatus(id.toString()).subscribe(() => {
-      this.currentPage$.next(this.currentPage$.value)
-    })
+  textToColor(text: string) {
+    return '#' + this.bytesToHex(this.stringToUTF8Bytes(text)).slice(0, 6)
+  }
+
+  private stringToUTF8Bytes(text: string) {
+    return new TextEncoder().encode(text);
+  }
+
+  private bytesToHex(bytes: Uint8Array) {
+    return Array.from(
+      bytes,
+      byte => byte.toString(16).padStart(2, '0')
+    ).join('');
   }
 
 }

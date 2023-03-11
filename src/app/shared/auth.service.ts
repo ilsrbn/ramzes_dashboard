@@ -44,10 +44,8 @@ export class AuthService {
   //     console.log({ resp });
   //   })
 
-    return this.adminAuthService.login({
-      username,
-      password
-    }).pipe(catchError(this.handleError)).subscribe((resp) => {
+    return this.adminAuthService.login( { requestBody: { username, password } }
+    ).pipe(catchError(this.handleError)).subscribe((resp) => {
       console.log({ resp });
       const { access_token } = resp
       localStorage.setItem('authBearer', access_token)

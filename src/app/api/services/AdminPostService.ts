@@ -16,14 +16,34 @@ export class AdminPostService {
     constructor(public readonly httpRequest: BaseHttpRequest) {}
 
     /**
-     * Create post
-     * @param requestBody
+     * Toggle post visibility
      * @returns Post
      * @throws ApiError
      */
-    public createPost(
+    public togglePostVisibility({
+        id,
+    }: {
+        id: string,
+    }): Observable<Post> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/api/admin/post/toggle/{id}',
+            path: {
+                'id': id,
+            },
+        });
+    }
+
+    /**
+     * Create post
+     * @returns Post
+     * @throws ApiError
+     */
+    public createPost({
+        requestBody,
+    }: {
         requestBody: CreatePostDto,
-    ): Observable<Post> {
+    }): Observable<Post> {
         return this.httpRequest.request({
             method: 'POST',
             url: '/api/admin/post',
@@ -34,13 +54,17 @@ export class AdminPostService {
 
     /**
      * Get all posts
-     * @param search Search by post title and content
      * @returns Post
      * @throws ApiError
      */
-    public getAllPosts(
+    public getAllPosts({
+        search,
+    }: {
+        /**
+         * Search by post title and content
+         */
         search?: string,
-    ): Observable<Array<Post>> {
+    }): Observable<Array<Post>> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/api/admin/post',
@@ -52,15 +76,16 @@ export class AdminPostService {
 
     /**
      * Edit post
-     * @param id
-     * @param requestBody
      * @returns Post
      * @throws ApiError
      */
-    public editPost(
+    public editPost({
+        id,
+        requestBody,
+    }: {
         id: string,
         requestBody: UpdatePostDto,
-    ): Observable<Post> {
+    }): Observable<Post> {
         return this.httpRequest.request({
             method: 'PATCH',
             url: '/api/admin/post/{id}',
@@ -74,13 +99,14 @@ export class AdminPostService {
 
     /**
      * Get post by ID
-     * @param id
-     * @returns any
+     * @returns Post
      * @throws ApiError
      */
-    public getPostById(
+    public getPostById({
+        id,
+    }: {
         id: string,
-    ): Observable<any> {
+    }): Observable<Post> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/api/admin/post/{id}',
@@ -92,13 +118,14 @@ export class AdminPostService {
 
     /**
      * Delete post by ID
-     * @param id
      * @returns any
      * @throws ApiError
      */
-    public deletePostById(
+    public deletePostById({
+        id,
+    }: {
         id: string,
-    ): Observable<any> {
+    }): Observable<any> {
         return this.httpRequest.request({
             method: 'DELETE',
             url: '/api/admin/post/{id}',

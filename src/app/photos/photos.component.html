@@ -1,24 +1,35 @@
-<div class="photos-wrapper">
+<div class="photos-wrapper wrapper">
   <div class="btns-container btns-container__left">
     <a routerLink="add" class="btn add-btn">
       <i class="material-icons-outlined">add</i>
       Add
     </a>
+    <nz-radio-group nzButtonStyle="solid" [ngModel]="postedStatus$.value" (ngModelChange)="postedStatus$.next($event)">
+      <label nz-radio-button [nzValue]="undefined">All</label>
+      <label nz-radio-button [nzValue]="true">Posted</label>
+      <label nz-radio-button [nzValue]="false">Hidden</label>
+    </nz-radio-group>
   </div>
     <div class="container">
 
     <div
-      class="photos-container"
+      class="grid-container"
       *ngIf="photos$ | async as photos; else elseBlock"
     >
-      <div class="photo-card" *ngFor="let photo of photos; trackBy: trackBy">
-        <img [src]="photo.file_url" alt="">
-        <div class="photo-card__actions">
-          <span class="photo-card__visibility" (click)="toggleVisibility(photo.id)" nz-icon nzTheme="fill" [nzType]="photo.posted ? 'eye':'eye-invisible'"></span>
-          <span class="photo-card__setting" nz-icon nzTheme="fill" nzType="setting"></span>
-          <span class="photo-card__delete" (click)="handleDelete(photo.id)" nz-icon nzTheme="fill" nzType="delete"></span>
+      <app-card
+        *ngFor="let photo of photos; trackBy: trackBy"
+        [cover]="photo.file_url"
+        [onDelete]="handleDelete(photo.id)"
+      >
+        <div description>
+          <nz-tag
+            *ngFor="let category of photo.categories"
+            [nzColor]="textToColor(category.title)"
+          >
+            {{ category.title }}
+          </nz-tag>
         </div>
-      </div>
+      </app-card>
       <span
         style="padding: 12px 0;"
         intersectionObserver [intersectionDebounce]="0" (visibilityChange)="onVisibilityChanged($event)"
