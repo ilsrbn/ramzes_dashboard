@@ -1,0 +1,32 @@
+<div class="edit-grid">
+  <div></div>
+  <div class="modal-wrapper has-blurred-white-bg">
+    <h2 class="is-bold">Create Post</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-field">
+        <input
+          class="textbox"
+          type="text"
+          placeholder="Post title..."
+          formControlName="title"
+        >
+      </div>
+      <div class="form-field">
+        <div class="NgxEditor__Wrapper">
+          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+          <ngx-editor [editor]="editor" formControlName="editorContent"> </ngx-editor>
+        </div>
+      </div>
+      <div class="form-field">
+        <nz-radio-group style="margin: 24px 0;" nzButtonStyle="solid" formControlName="posted">
+          <label nz-radio-button [nzValue]="true">Posted</label>
+          <label nz-radio-button [nzValue]="false">Hidden</label>
+        </nz-radio-group>
+      </div>
+      <div class="btns-container">
+        <button class="btn">Submit</button>
+      </div>
+    </form>
+  </div>
+  <div></div>
+</div>

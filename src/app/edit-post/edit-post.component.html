@@ -1,0 +1,33 @@
+<div class="edit-grid" *ngIf="post$ | async as post">
+  <div></div>
+  <div class="has-blurred-white-bg modal-wrapper">
+    <h2 class="is-bold">Edit post "{{ post.title }}"</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-field">
+        <input
+          class="textbox"
+          type="text"
+          placeholder="Post title..."
+          formControlName="title"
+        >
+      </div>
+      <div class="form-field">
+        <div class="NgxEditor__Wrapper">
+          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+          <ngx-editor [editor]="editor" formControlName="editorContent"> </ngx-editor>
+        </div>
+      </div>
+      <div class="form-field">
+        <nz-radio-group style="margin: 24px 0;" nzButtonStyle="solid" formControlName="posted">
+          <label nz-radio-button [nzValue]="true">Posted</label>
+          <label nz-radio-button [nzValue]="false">Hidden</label>
+        </nz-radio-group>
+      </div>
+      <div class="btns-container">
+        <a class="btn" routerLink="/app/posts">Cancel</a>
+        <button class="btn align-end">Submit</button>
+      </div>
+    </form>
+  </div>
+  <div></div>
+</div>

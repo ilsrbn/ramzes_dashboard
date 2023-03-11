@@ -1,0 +1,21 @@
+<div class="modal-wrapper container has-blurred-white-bg">
+  <h2 class="is-bold">Add Category</h2>
+  <form #form="ngForm" (ngSubmit)="createCategory(form)">
+    <div class="form-field">
+      <input class="textbox" ngModel #title="ngModel" name="title" type="text" placeholder="Category title..." required>
+      <ng-container *ngIf="showValidationErrors && title.invalid">
+        <p *ngIf="title.errors.required">Please enter email</p>
+      </ng-container>
+    </div>
+    <div class="form-field">
+      <textarea class="textbox" ngModel #description="ngModel" name="description" placeholder="Category description..."></textarea>
+    </div>
+    <nz-radio-group style="margin-bottom: 24px;" nzButtonStyle="solid" ngModel #posted="ngModel" [ngModel]="false" name="posted">
+      <label nz-radio-button [nzValue]="true">Posted</label>
+      <label nz-radio-button [nzValue]="false">Hidden</label>
+    </nz-radio-group>
+    <div class="btns-container">
+      <button class="btn align-end">Submit</button>
+    </div>
+  </form>
+</div>
