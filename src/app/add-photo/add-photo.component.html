@@ -6,9 +6,14 @@
     nzAccept="image/*"
     [(nzFileList)]="fileList"
     [nzShowButton]="fileList.length < 8"
-    [nzPreview]="handlePreview"
-    (nzChange)="handleChange"
-    [nzRemove]="handleRemove"
+    [nzBeforeUpload]="beforeUpload"
+    [nzShowUploadList]="{
+      showPreviewIcon: false,
+      showRemoveIcon: true,
+      showDownloadIcon: false
+    }"
     nzMultiple
-  ></nz-upload>
+  >
+  </nz-upload>
+  <button [disabled]="fileList.length === 0" class="btn" (click)="handleUpload()">Upload</button>
 </div>
