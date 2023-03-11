@@ -23,7 +23,7 @@ import { PostService } from './services/PostService';
         {
             provide: OpenAPI,
             useValue: {
-                BASE: OpenAPI?.BASE ?? 'http://localhost:3005',
+                BASE: OpenAPI?.BASE ?? 'https://back.ramzes.serbin.co',
                 VERSION: OpenAPI?.VERSION ?? '1',
                 WITH_CREDENTIALS: OpenAPI?.WITH_CREDENTIALS ?? false,
                 CREDENTIALS: OpenAPI?.CREDENTIALS ?? 'include',

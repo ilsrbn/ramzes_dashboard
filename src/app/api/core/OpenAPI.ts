@@ -19,7 +19,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-    BASE: 'http://localhost:3005',
+    BASE: 'https://back.ramzes.serbin.co',
     VERSION: '1',
     WITH_CREDENTIALS: false,
     CREDENTIALS: 'include',
