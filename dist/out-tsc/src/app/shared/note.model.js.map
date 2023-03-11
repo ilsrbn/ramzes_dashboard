@@ -1,0 +1,1 @@
+{"version":3,"file":"note.model.js","sourceRoot":"","sources":["../../../../../src/app/shared/note.model.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,EAAE,IAAI,MAAM,EAAE,MAAM,MAAM,CAAA;AAEnC,MAAM,OAAO,IAAI;IAGb,YAAmB,KAAa,EAAS,OAAe;QAArC,UAAK,GAAL,KAAK,CAAQ;QAAS,YAAO,GAAP,OAAO,CAAQ;QACpD,IAAI,CAAC,EAAE,GAAG,MAAM,EAAE,CAAA;IACtB,CAAC;CACJ"}
