@@ -8,3 +8,11 @@
   margin-top: 50svh;
   transform: translateY(-50%);
 }
+
+.loading {
+  width: 100%;
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

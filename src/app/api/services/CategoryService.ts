@@ -65,4 +65,59 @@ export class CategoryService {
         });
     }
 
+    /**
+     * Get posted category by ID
+     * @returns any
+     * @throws ApiError
+     */
+    public getPostedCategoryById({
+        id,
+        page,
+        limit,
+        search,
+        searchBy,
+        sortBy,
+    }: {
+        id: string,
+        /**
+         * Page number (starting from 1)
+         */
+        page?: any,
+        /**
+         * Number of records per page
+         */
+        limit?: any,
+        /**
+         * Multicolumn search term
+         */
+        search?: any,
+        /**
+         * Limit columns to which apply 'search' term
+         */
+        searchBy?: Array<string>,
+        /**
+         * Format: _field_:_direction_ [direction may be ASC or DESC] e.g. id:DESC
+         */
+        sortBy?: any,
+    }): Observable<{
+        links?: PaginatedResponseLinksDto;
+        meta?: PaginatedResponseMetaDto;
+        data?: Array<Category>;
+    }> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/api/category/{id}',
+            path: {
+                'id': id,
+            },
+            query: {
+                'page': page,
+                'limit': limit,
+                'search': search,
+                'searchBy': searchBy,
+                'sortBy': sortBy,
+            },
+        });
+    }
+
 }

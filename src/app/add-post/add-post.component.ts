@@ -51,7 +51,8 @@ export class AddPostComponent implements OnInit, OnDestroy{
       requestBody: {
         title: this.form.value.title,
         content: this.form.value.editorContent,
-        posted: this.form.value.posted
+        posted: this.form.value.posted,
+        featured_photos: []
       }
     }).pipe(
       tap(() => {

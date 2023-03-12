@@ -14,5 +14,6 @@ export type Post = {
     posted: any;
     owner: Account;
     ownerId: number;
+    featured_photos: Array<string>;
 };
 

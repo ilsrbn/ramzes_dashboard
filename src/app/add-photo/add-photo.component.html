@@ -1,19 +1,26 @@
 <div class="add-photo-wrapper container has-blurred-white-bg">
-  <h2 class="is-bold">Add photos</h2>
-  <nz-upload
-    nzListType="picture-card"
-    nzAction="https://back.ramzes.serbin.co/api/admin/photo"
-    nzAccept="image/*"
-    [(nzFileList)]="fileList"
-    [nzShowButton]="fileList.length < 8"
-    [nzBeforeUpload]="beforeUpload"
-    [nzShowUploadList]="{
-      showPreviewIcon: false,
-      showRemoveIcon: true,
-      showDownloadIcon: false
-    }"
-    nzMultiple
-  >
-  </nz-upload>
-  <button [disabled]="fileList.length === 0" class="btn" (click)="handleUpload()">Upload</button>
+  <ng-container *ngIf="!loading$.value; else loadingRef" [@fadeAnim]>
+    <h2 class="is-bold">Add photos</h2>
+    <nz-upload
+      nzListType="picture-card"
+      nzAction="https://back.ramzes.serbin.co/api/admin/photo"
+      nzAccept="image/*"
+      [(nzFileList)]="fileList"
+      [nzShowButton]="fileList.length < 8"
+      [nzBeforeUpload]="beforeUpload"
+      [nzShowUploadList]="{
+        showPreviewIcon: false,
+        showRemoveIcon: true,
+        showDownloadIcon: false
+      }"
+      nzMultiple
+    >
+    </nz-upload>
+  </ng-container>
+  <ng-template #loadingRef>
+    <div class="loading" [@fadeAnim]>
+      <i nz-icon nzType="loading" nzTheme="outline" ></i>
+    </div>
+  </ng-template>
+  <button [disabled]="fileList.length === 0 || loading$.value" class="btn" (click)="handleUpload()">Upload</button>
 </div>

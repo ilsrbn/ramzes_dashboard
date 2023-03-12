@@ -1,14 +1,29 @@
 import { Component } from '@angular/core';
 import {NzUploadFile} from 'ng-zorro-antd/upload';
 import {Router} from '@angular/router';
-import {zip} from 'rxjs';
+import {BehaviorSubject, zip} from 'rxjs';
 import {AdminPhotoService} from '../api';
 import {tap, } from 'rxjs/operators';
+import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-add-photo',
   templateUrl: './add-photo.component.html',
-  styleUrls: ['./add-photo.component.scss']
+  styleUrls: ['./add-photo.component.scss'],
+  animations: [
+    trigger('fadeAnim', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate(250, style({
+          opacity: 1
+        }))
+      ]),
+
+      transition(':leave', [
+        animate(250, style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class AddPhotoComponent {
 
@@ -17,6 +32,7 @@ export class AddPhotoComponent {
     private photoService: AdminPhotoService,
   ) {
   }
+  loading$ = new BehaviorSubject<boolean>(false)
 
   fileList: NzUploadFile[] = []
 
@@ -36,6 +52,7 @@ export class AddPhotoComponent {
   };
 
   handleUpload(): void {
+    this.loading$.next(true)
     const observablesArray = []
     for (const nzFile of this.fileList) {
       const file = nzFile as any
@@ -44,7 +61,10 @@ export class AddPhotoComponent {
       formData.append('file', file);
       observablesArray.push(this.photoService.createOptimizedWebpPhoto({ formData: { file } }))
     }
-    zip(observablesArray).pipe(tap(() => this.router.navigateByUrl('/app/photos'))).subscribe()
+    zip(observablesArray).subscribe(() => {
+      this.router.navigateByUrl('/app/photos')
+      this.loading$.next(false)
+    })
   }
 
 }
