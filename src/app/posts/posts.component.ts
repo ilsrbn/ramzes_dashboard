@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {BehaviorSubject, switchMap} from 'rxjs';
 import {AdminPostService} from '../api';
 import {Router} from '@angular/router';
-import {tap} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-posts',
@@ -12,7 +12,11 @@ import {tap} from 'rxjs/operators';
 export class PostsComponent {
   currentPage$ = new BehaviorSubject<number>(1)
   posts$ = this.currentPage$.pipe(
-    switchMap((page) => this.postsService.getAllPosts({}))
+    switchMap(
+      (page) => this.postsService.getAllPosts({}).pipe(
+        map((resp) => resp.data )
+      )
+    )
   )
 
   constructor(

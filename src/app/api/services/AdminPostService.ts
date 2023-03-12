@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 import type { Observable } from 'rxjs';
 
 import type { CreatePostDto } from '../models/CreatePostDto';
+import type { PaginatedResponseLinksDto } from '../models/PaginatedResponseLinksDto';
+import type { PaginatedResponseMetaDto } from '../models/PaginatedResponseMetaDto';
 import type { Post } from '../models/Post';
 import type { UpdatePostDto } from '../models/UpdatePostDto';
 
@@ -54,22 +56,50 @@ export class AdminPostService {
 
     /**
      * Get all posts
-     * @returns Post
+     * @returns any
      * @throws ApiError
      */
     public getAllPosts({
+        page,
+        limit,
         search,
+        searchBy,
+        sortBy,
     }: {
         /**
-         * Search by post title and content
+         * Page number (starting from 1)
          */
-        search?: string,
-    }): Observable<Array<Post>> {
+        page?: any,
+        /**
+         * Number of records per page
+         */
+        limit?: any,
+        /**
+         * Multicolumn search term
+         */
+        search?: any,
+        /**
+         * Limit columns to which apply 'search' term
+         */
+        searchBy?: Array<string>,
+        /**
+         * Format: _field_:_direction_ [direction may be ASC or DESC] e.g. id:DESC
+         */
+        sortBy?: any,
+    }): Observable<{
+        links?: PaginatedResponseLinksDto;
+        meta?: PaginatedResponseMetaDto;
+        data?: Array<Post>;
+    }> {
         return this.httpRequest.request({
             method: 'GET',
             url: '/api/admin/post',
             query: {
+                'page': page,
+                'limit': limit,
                 'search': search,
+                'searchBy': searchBy,
+                'sortBy': sortBy,
             },
         });
     }

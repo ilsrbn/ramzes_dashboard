@@ -13,7 +13,6 @@ export type { AccessTokenDto } from './models/AccessTokenDto';
 export type { Account } from './models/Account';
 export type { AttachPhotosDto } from './models/AttachPhotosDto';
 export type { Category } from './models/Category';
-export type { CreateAccountDto } from './models/CreateAccountDto';
 export type { CreateCategoryDto } from './models/CreateCategoryDto';
 export type { CreatePostDto } from './models/CreatePostDto';
 export type { EditCategoryDto } from './models/EditCategoryDto';
