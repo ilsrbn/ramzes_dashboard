@@ -1,29 +1,43 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AdminPostService, Post} from '../api';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {switchMap} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AdminPhotoService, AdminPostService, Photo, Post } from '../api';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { map, shareReplay, tap } from 'rxjs/operators';
 import { Editor, Toolbar } from 'ngx-editor';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {NotificationService} from '../shared/notification.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
   selector: 'app-edit-post',
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.scss']
 })
-export class EditPostComponent implements OnInit, OnDestroy{
+export class EditPostComponent implements OnInit, OnDestroy {
+  openSidebar$ = new BehaviorSubject<boolean>(false)
+  photos$: Observable<Photo[]> = this.photosService.getAllPhotos({
+    limit: 999,
+    page: 1
+  }).pipe(
+    shareReplay(),
+    map((paginatedPhotos) => paginatedPhotos.data)
+  )
+
   form = new FormGroup({
     title: new FormControl('', Validators.required),
     editorContent: new FormControl('', Validators.required),
     posted: new FormControl(false)
   });
+  featuredPhotos$ = new BehaviorSubject<string[]>([])
   post$ = this.route.paramMap.pipe(
-    switchMap( (paramMap: ParamMap) => {
+    switchMap((paramMap: ParamMap) => {
       const id = paramMap.get('id')
       this.id = id
       return this.postsService.getPostById({ id }).pipe(tap((value) => {
         this.form.setValue({ editorContent: value.content, title: value.title, posted: value.posted })
+        if (value.featured_photos) {
+          const photos = value.featured_photos
+          this.featuredPhotos$.next(photos)
+        }
       }))
     })
   )
@@ -50,8 +64,9 @@ export class EditPostComponent implements OnInit, OnDestroy{
     private router: Router,
     private notificationService: NotificationService,
     private postsService: AdminPostService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private photosService: AdminPhotoService,
+  ) { }
 
   submit() {
     this.postsService.editPost({
@@ -59,7 +74,8 @@ export class EditPostComponent implements OnInit, OnDestroy{
       requestBody: {
         title: this.form.value.title,
         content: this.form.value.editorContent,
-        posted: this.form.value.posted
+        posted: this.form.value.posted,
+        featured_photos: this.featuredPhotos$.value
       }
     }).pipe(
       tap(() => {
@@ -68,4 +84,31 @@ export class EditPostComponent implements OnInit, OnDestroy{
       })
     ).subscribe()
   }
+  addFeaturedPhoto(photoURL: string) {
+    const photos = this.featuredPhotos$.value
+    photos.unshift(photoURL)
+
+    this.featuredPhotos$.next(photos)
+  }
+  deleteFeaturedPhoto(photoURL: string) {
+    const photos = this.featuredPhotos$.value.filter((photo) => photo !== photoURL)
+    const featuredPhotos$ = this.featuredPhotos$
+    return () => {
+      featuredPhotos$.next(photos)
+    }
+  }
+  observeURL(event: Event): void {
+    const regexp = /(http)?s?:?(\/\/[^"']*\.(?:png|jpg|jpeg|gif|png|svg|webp))/g
+
+    const targetElement = event.target as HTMLInputElement;
+    const value = targetElement.value
+
+    const isPhotoUrl = regexp.test(value)
+
+    if (isPhotoUrl) {
+      this.addFeaturedPhoto(value)
+      targetElement.value = ""
+    }
+  }
+
 }

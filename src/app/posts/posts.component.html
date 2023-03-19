@@ -7,14 +7,9 @@
   </div>
   <div class="container">
     <div class="grid-container" *ngIf="posts$ | async as posts">
-      <app-card
-        *ngFor="let post of posts"
-        [title]="post.title"
-        [posted]="post.posted"
-        [onEdit]="onEdit(post.id)"
-        [onDelete]="onDelete(post.id)"
-        [onToggleVisibility]="onToggle(post.id)"
-      >
+      <app-card *ngFor="let post of posts" [title]="post.title"
+        [cover]="post.featured_photos && post.featured_photos.length && post.featured_photos[0]" [posted]="post.posted"
+        [onEdit]="onEdit(post.id)" [onDelete]="onDelete(post.id)" [onToggleVisibility]="onToggle(post.id)">
         <div description [innerHTML]="post.content"></div>
       </app-card>
     </div>

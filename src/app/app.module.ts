@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { NgModule } from '@angular/core';
 
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,30 +12,32 @@ import { PhotosComponent } from './photos/photos.component';
 import { AddPhotoComponent } from './add-photo/add-photo.component';
 import { ApiClient } from './api';
 import { LoginComponent } from './login/login.component';
-import {HttpClientModule, HttpRequest} from '@angular/common/http';
+import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import { JwtModule, JwtModuleOptions } from '@auth0/angular-jwt';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
-import {NgOptimizedImage, registerLocaleData} from '@angular/common';
+import { NgOptimizedImage, registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en'
 import { NzUploadModule } from 'ng-zorro-antd/upload'
 import { NzCardModule } from 'ng-zorro-antd/card'
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { ObserveElementDirective } from './directive/intersection-observer.directive';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { CategoriesComponent } from './categories/categories.component';
 import { EmptyLayoutComponent } from './empty-layout/empty-layout.component';
 import { LayoutComponent } from './layout/layout.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { NzRadioModule } from 'ng-zorro-antd/radio'
-import {CardComponent} from './card/card.component';
+import { CardComponent } from './card/card.component';
 import { StoreModule } from '@ngrx/store';
-import {EditCategoryComponent} from './edit-category/edit-category.component';
+import { EditCategoryComponent } from './edit-category/edit-category.component';
 import { PostsComponent } from './posts/posts.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { AddPostComponent } from './add-post/add-post.component';
 import { NgxEditorModule, schema } from 'ngx-editor';
+import { FeaturedPhotoInputComponent } from './featured-photo-input/featured-photo-input.component';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 registerLocaleData(en);
 
@@ -67,8 +69,10 @@ const options: JwtModuleOptions = {
     PostsComponent,
     EditPostComponent,
     AddPostComponent,
+    FeaturedPhotoInputComponent,
   ],
   imports: [
+    NzDividerModule,
     NzRadioModule,
     NzTagModule,
     NzIconModule,
@@ -123,7 +127,7 @@ const options: JwtModuleOptions = {
     ReactiveFormsModule,
   ],
   providers: [
-    {provide: NZ_I18N, useValue: en_US}
+    { provide: NZ_I18N, useValue: en_US }
   ],
   bootstrap: [AppComponent]
 })

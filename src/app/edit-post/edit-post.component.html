@@ -1,15 +1,33 @@
 <div class="edit-grid" *ngIf="post$ | async as post">
-  <div></div>
+  <div>
+    <div *ngIf="openSidebar$.value" class="modal-wrapper has-blurred-white-bg">
+      <div>
+        <h2 class="is-bold">Available photos</h2>
+        <label for="url">Photo url</label>
+        <input type="text" class="textbox" id="url" placeholder="Paste URL of the photo..."
+          (input)="observeURL($event)">
+        <nz-divider nzText="Or"></nz-divider>
+        <div class="grid-container" *ngIf="photos$ | async as photos">
+          <app-card *ngFor="let photo of photos" [cover]="photo.file_url">
+            <ng-container actions>
+              <i nz-icon nzType="plus-circle" (click)="addFeaturedPhoto(photo.file_url)"></i>
+            </ng-container>
+          </app-card>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
   <div class="has-blurred-white-bg modal-wrapper">
     <h2 class="is-bold">Edit post "{{ post.title }}"</h2>
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="form-field">
-        <input
-          class="textbox"
-          type="text"
-          placeholder="Post title..."
-          formControlName="title"
-        >
+        <input class="textbox" type="text" placeholder="Post title..." formControlName="title">
+      </div>
+      <div class="form-field">
+        <button class="btn" type="button" (click)="openSidebar$.next(!openSidebar$.value)">Photos</button>
       </div>
       <div class="form-field">
         <div class="NgxEditor__Wrapper">
@@ -29,5 +47,15 @@
       </div>
     </form>
   </div>
-  <div></div>
+  <div>
+    <div *ngIf="openSidebar$.value" class="modal-wrapper has-blurred-white-bg">
+      <div>
+        <h2 class="is-bold">Post photos</h2>
+        <div *ngIf="featuredPhotos$ | async as featuredPhotos" class="grid-container">
+          <app-card *ngFor="let featuredPhoto of featuredPhotos" [cover]="featuredPhoto"
+            [onDelete]="deleteFeaturedPhoto(featuredPhoto)"></app-card>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

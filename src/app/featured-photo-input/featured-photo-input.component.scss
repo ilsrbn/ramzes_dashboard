@@ -1,0 +1,9 @@
+:host {
+  max-height: 50px;
+  display: flex;
+  align-items: center;
+  gap:  12px;
+  .imagePreview {
+    max-height: inherit;
+  }
+}

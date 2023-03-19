@@ -215,3 +215,6 @@ a {
     grid-template-columns: repeat(1, 1fr);
   }
 }
+img {
+    max-height: inherit;
+}
